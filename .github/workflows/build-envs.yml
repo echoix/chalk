@@ -22,6 +22,8 @@ jobs:
           ./.tox
           ./venv
         restore-keys: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+    - name: Install pyenv
+      run: curl -fsSL https://pyenv.run | bash
     - name: Install dev requirements
       run: "./bin/install"
     - name: Run the tests
@@ -43,6 +45,8 @@ jobs:
         key: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
         path: UPDATE_ME
         restore-keys: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+    - name: Install pyenv
+      run: curl -fsSL https://pyenv.run | bash
     - name: Install dev requirements
       run: "./bin/install"
     - name: Deploy
