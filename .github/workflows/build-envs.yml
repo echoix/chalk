@@ -7,8 +7,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: anthonyalmarza/alpine-pyenv:cable
+    # container:
+    #   image: anthonyalmarza/alpine-pyenv:cable
     env:
       BASH_ENV: "~/.bashrc"
     steps:
@@ -30,8 +30,8 @@ jobs:
     if: # GitHub does not currently support regular expressions inside if conditions
 #         (github.ref == 'refs/tags//[0-9](\.[0-9]+)*/') && (github.ref != 'refs/heads//.*/')
     runs-on: ubuntu-latest
-    container:
-      image: anthonyalmarza/alpine-pyenv:cable
+    # container:
+    #   image: anthonyalmarza/alpine-pyenv:cable
     needs:
     - test
     steps:
