@@ -1,4 +1,4 @@
-name: echoix/chalk/build-envs
+name: build-envs
 on:
   push:
     branches:
