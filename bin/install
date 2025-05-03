@@ -3,5 +3,5 @@
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements-dev.txt
-pyenv local 2.7.14 3.5.4 3.6.3
+pyenv local 2.7 3.5 3.6
 deactivate

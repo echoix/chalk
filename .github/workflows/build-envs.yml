@@ -1,0 +1,97 @@
+name: build-envs
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # container:
+    #   image: anthonyalmarza/alpine-pyenv:cable
+    env:
+      BASH_ENV: "~/.bashrc"
+    strategy:
+      matrix:
+        python-version:
+          - "2.7"
+          - "3.5"
+          - "3.6"
+    steps:
+    - uses: actions/checkout@v4
+    - name: restore_cache
+      if: false
+      uses: actions/cache@v4
+      with:
+        key: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+        path: |-
+          ./.tox
+          ./venv
+        restore-keys: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+    - name: Install pyenv
+      run: |
+        curl -fsSL https://pyenv.run | bash
+        export PYENV_ROOT="${HOME}/.pyenv"
+        export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
+        export PATH="${PWD}/venv/bin:${PATH}"
+        echo "PYENV_ROOT=${PYENV_ROOT}" | tee -a "${GITHUB_ENV}"
+        echo "PATH=${PATH}" | tee -a "${GITHUB_ENV}"
+    - name: Install python versions
+      run: pyenv install --skip-existing ${{ matrix.python-version }}
+    - name: Install dev requirements
+      if: false
+      run: "./bin/install"
+    - name: Install dev requirements
+      run: |
+        virtualenv venv
+        source venv/bin/activate
+        pip install -r requirements-dev.txt
+        pyenv local ${{ matrix.python-version }}
+        deactivate
+    - name: Run the tests
+      run: "./bin/test"
+  deploy:
+    if: # GitHub does not currently support regular expressions inside if conditions
+#         (github.ref == 'refs/tags//[0-9](\.[0-9]+)*/') && (github.ref != 'refs/heads//.*/')
+    runs-on: ubuntu-latest
+    # container:
+    #   image: anthonyalmarza/alpine-pyenv:cable
+    needs:
+    - test
+    strategy:
+      matrix:
+        python-version:
+          - "2.7"
+          - "3.5"
+          - "3.6"
+    steps:
+    - uses: actions/checkout@v4
+    - name: restore_cache
+      if: false
+      uses: actions/cache@v4
+      with:
+        key: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+        path: UPDATE_ME
+        restore-keys: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+    - name: Install pyenv
+      run: |
+        curl -fsSL https://pyenv.run | bash
+        export PYENV_ROOT="${HOME}/.pyenv"
+        export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
+        export PATH="${PWD}/venv/bin:${PATH}"
+        echo "PYENV_ROOT=${PYENV_ROOT}" | tee -a "${GITHUB_ENV}"
+        echo "PATH=${PATH}" | tee -a "${GITHUB_ENV}"
+    - name: Install python versions
+      run: pyenv install --skip-existing ${{ matrix.python-version }}
+    - name: Install dev requirements
+      if: false
+      run: "./bin/install"
+    - name: Install dev requirements
+      run: |
+        virtualenv venv
+        source venv/bin/activate
+        pip install -r requirements-dev.txt
+        pyenv local ${{ matrix.python-version }}
+        deactivate
+    - name: Deploy
+      run: "./bin/deploy"
