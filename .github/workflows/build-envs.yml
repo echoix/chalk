@@ -30,6 +30,8 @@ jobs:
         export PATH="${PWD}/venv/bin:${PATH}"
         echo "PYENV_ROOT=${PYENV_ROOT}" | tee -a "${GITHUB_ENV}"
         echo "PATH=${PATH}" | tee -a "${GITHUB_ENV}"
+    - name: Install python versions
+      run: pyenv install --skip-existing 2.7.14 3.5.4 3.6.3
     - name: Install dev requirements
       run: "./bin/install"
     - name: Run the tests
@@ -59,6 +61,8 @@ jobs:
         export PATH="${PWD}/venv/bin:${PATH}"
         echo "PYENV_ROOT=${PYENV_ROOT}" | tee -a "${GITHUB_ENV}"
         echo "PATH=${PATH}" | tee -a "${GITHUB_ENV}"
+    - name: Install python versions
+      run: pyenv install --skip-existing 2.7.14 3.5.4 3.6.3
     - name: Install dev requirements
       run: "./bin/install"
     - name: Deploy
