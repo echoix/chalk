@@ -12,9 +12,9 @@ jobs:
     env:
       BASH_ENV: "~/.bashrc"
     steps:
-    - uses: actions/checkout@v4.1.0
+    - uses: actions/checkout@v4
     - name: restore_cache
-      uses: actions/cache@v3.3.2
+      uses: actions/cache@v4
       with:
         key: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
         path: |-
@@ -34,9 +34,9 @@ jobs:
     needs:
     - test
     steps:
-    - uses: actions/checkout@v4.1.0
+    - uses: actions/checkout@v4
     - name: restore_cache
-      uses: actions/cache@v3.3.2
+      uses: actions/cache@v4
       with:
         key: chalk-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
         path: UPDATE_ME
