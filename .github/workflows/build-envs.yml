@@ -28,9 +28,9 @@ jobs:
         # export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
         # export PATH="${PWD}/venv/bin:${PATH}"
         curl -fsSL https://pyenv.run | bash
-        # export PYENV_ROOT="${HOME}/.pyenv"
-        # export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
-        # export PATH="${PWD}/venv/bin:${PATH}"
+        export PYENV_ROOT="${HOME}/.pyenv"
+        export PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
+        export PATH="${PWD}/venv/bin:${PATH}"
         # git clone https://github.com/pyenv/pyenv.git "${PYENV_ROOT}"
         echo "PYENV_ROOT=${PYENV_ROOT}" | tee -a "${GITHUB_ENV}"
         echo "PATH=${PATH}" | tee -a "${GITHUB_ENV}"
