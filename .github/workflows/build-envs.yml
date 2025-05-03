@@ -39,7 +39,15 @@ jobs:
     - name: Install python versions
       run: pyenv install --skip-existing ${{ matrix.python-version }}
     - name: Install dev requirements
+      if: false
       run: "./bin/install"
+    - name: Install dev requirements
+      run: |
+        virtualenv venv
+        source venv/bin/activate
+        pip install -r requirements-dev.txt
+        pyenv local ${{ matrix.python-version }}
+        deactivate
     - name: Run the tests
       run: "./bin/test"
   deploy:
@@ -76,6 +84,14 @@ jobs:
     - name: Install python versions
       run: pyenv install --skip-existing ${{ matrix.python-version }}
     - name: Install dev requirements
+      if: false
       run: "./bin/install"
+    - name: Install dev requirements
+      run: |
+        virtualenv venv
+        source venv/bin/activate
+        pip install -r requirements-dev.txt
+        pyenv local ${{ matrix.python-version }}
+        deactivate
     - name: Deploy
       run: "./bin/deploy"
